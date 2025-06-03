@@ -1,0 +1,45 @@
+
+🔐 What Is AWS Secrets Manager?
+It's a safe vault in AWS to store passwords, API keys, or DB credentials.
+
+
+
+What’s the Problem?
+You’re building an app (like in Python or Node.js), and it needs a username and password to connect to something (like a database).
+
+But you don’t want to write secrets in code (it’s dangerous!).
+
+You want to:
+
+Store the secret safely
+
+Let your app read it securely
+
+Automate it using Terraform
+
+
+Store a secret (like a DB username/password)
+
+Create a role that can read it
+
+Use Python code to read the secret at runtime
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+# Create a secret (username/password)
+resource "aws_secretsmanager_secret" "db_secret" {
+  name = "/dev/myapp/db"
+}
+
+# Store the actual secret values
+resource "aws_secretsmanager_secret_version" "db_secret_value" {
+  secret_id     = aws_secretsmanager_secret.db_secret.id
+  secret_string = jsonencode({
+    username = "myapp_user",
+    password = "StrongPassword123!"
+  })
+}
+
+
