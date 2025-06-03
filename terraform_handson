@@ -1,0 +1,19 @@
+AWS Provider
+Terraform uses providers to interact with cloud services. The AWS provider is used to manage AWS resources. 
+You need to configure the provider with the necessary credentials before managing AWS services.
+
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "your_access_key"
+  secret_key = "your_secret_key"
+}
+
+
+From configuring AWS provider credentials to managing sensitive data and understanding the basic structure of a Terraform project
+
+resource aws_instance ec2_instance {
+  ami = ami-abcd
+  type = t2.micro
+}
+
+Additionally, we'll delve into backend configurations for remote state storage and integrate AWS Secrets Manager for enhanced security.
