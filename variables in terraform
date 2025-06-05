@@ -1,0 +1,53 @@
+Passing Variables in Terraform and Their Precedence
+Terraform allows you to pass variables in various ways, each with a specific precedence. Here's an overview of the different methods and their order of precedence from highest to lowest:
+
+CLI Arguments
+Environment Variables
+Terraform.tfvars File
+Auto-Loaded *.auto.tfvars Files
+Variable Defaults in Configuration
+
+
+1. CLI Arguments
+Variables can be passed directly via the command line using the -var flag.
+
+Example:
+
+terraform apply -var="instance_type=t2.micro"
+Precedence: Highest. Values passed this way override all other variable sources.
+
+2. Environment Variables
+You can set variables using environment variables. Terraform reads environment variables with the TF_VAR_ prefix.
+
+Example:
+
+export TF_VAR_instance_type=t2.micro
+terraform apply
+Precedence: Second highest. Overrides *.tfvars files and variable defaults but not CLI arguments.
+
+3. terraform.tfvars File
+You can create a terraform.tfvars file to define variables.
+
+Example (terraform.tfvars):
+
+instance_type = "t2.micro"
+Precedence: Third highest. Overrides auto-loaded *.auto.tfvars files and variable defaults but is overridden by environment variables and CLI arguments.
+
+4. Auto-Loaded *.auto.tfvars Files
+Any file with the *.auto.tfvars extension in the root module directory will be automatically loaded.
+
+Example (variables.auto.tfvars):
+
+instance_type = "t2.micro"
+Precedence: Fourth highest. Overrides variable defaults but is overridden by terraform.tfvars, environment variables, and CLI arguments.
+
+5. Variable Defaults in Configuration
+Variables can have default values specified within the Terraform configuration.
+
+Example (variables.tf):
+
+variable "instance_type" {
+  description = "Type of instance to use"
+  default     = "t2.micro"
+}
+Precedence: Lowest. Used only if no other value is provided by any of the higher-precedence methods.
